@@ -26,7 +26,7 @@ class _HelloscreenState extends State<Helloscreen> {
               Navigator.push(context, 
               MaterialPageRoute(builder: (context) => Enterbusinessscreen())
               );
-            }, child: Text('Try our app')
+            }, child: Text('Enter')
             )
           ],
         ),

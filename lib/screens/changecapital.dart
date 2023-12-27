@@ -2,13 +2,13 @@ import 'package:dbpracforfinals/data/lists.dart';
 import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
 
-class Entercapitalscreen extends StatefulWidget {
-   Entercapitalscreen({super.key, required this.businessname});
+class Changecapitalscreen extends StatefulWidget {
+   Changecapitalscreen({super.key, required this.businessname});
 
   String businessname = "";
 
   @override
-  State<Entercapitalscreen> createState() => _EntercapitalscreenState();
+  State<Changecapitalscreen> createState() => _ChangecapitalscreenState();
 }
 
   double cap = 0;
@@ -17,7 +17,7 @@ class Entercapitalscreen extends StatefulWidget {
   List<Expenses> emptyexpenses = [];
   List<Loans> emptyloans = [];
 
-class _EntercapitalscreenState extends State<Entercapitalscreen> {
+class _ChangecapitalscreenState extends State<Changecapitalscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +46,13 @@ class _EntercapitalscreenState extends State<Entercapitalscreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ListTile(
                         title: Center(
-                          child: Text("What is ${widget.businessname}'s budget for today?", 
+                          child: Text("What will be ${widget.businessname}'s new budget?", 
                           style: TextStyle(
                             fontSize: 20,
                           ),
                           ),
                         ),
-                        subtitle: Center(child: Text("eg. 10000")),
+                        subtitle: Center(child: Text("Enter your new budget")),
                       ),
                     ),
                     Padding(padding: const EdgeInsets.all(10.0),
@@ -76,7 +76,7 @@ class _EntercapitalscreenState extends State<Entercapitalscreen> {
                       setState(() {
                         
                       });
-                      Navigator.push(context, 
+                      Navigator.pushReplacement(context, 
                       MaterialPageRoute(builder: (context)=> Mainscreen(capital: cap, busname: widget.businessname, expensesdisplay: 0, revenusedisplay: 0, loansdisplay: 0, revlistcopy: emptyrev, 
                       expenseslistcopy: emptyexpenses, loanslistcopy: emptyloans, paidamount_inloans: 0,)));
                     }, child: Text('Next'))

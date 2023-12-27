@@ -1,6 +1,7 @@
 import 'package:dbpracforfinals/data/lists.dart';
 import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class Expensesscreen extends StatefulWidget {
@@ -29,6 +30,11 @@ class _ExpensesscreenState extends State<Expensesscreen> {
   TextEditingController expensesamountcon = TextEditingController();
   int ind = 0;
   double capitalvaluedisplayinmain = 0;
+  final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
+  final currencyFormat = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 2,
+    );
 
   void showentry() {
     showModalBottomSheet(
@@ -45,6 +51,7 @@ class _ExpensesscreenState extends State<Expensesscreen> {
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      prefix: Text('₱'),
                       labelText: 'Enter Amount',
                     ),
                     keyboardType: TextInputType.number,
@@ -232,7 +239,7 @@ class _ExpensesscreenState extends State<Expensesscreen> {
                     height: 150,
                     alignment: Alignment.center,
                     child: Text(
-                      '₱ ${widget.expensesdisplay}',
+                      currencyFormat.format(widget.expensesdisplay),
                       style: TextStyle(
                         fontSize: 50,
                         color: Color.fromARGB(255, 179, 243, 188),
@@ -269,8 +276,8 @@ class _ExpensesscreenState extends State<Expensesscreen> {
                               child: ListTile(
                                 title: Text('${widget.expenses[index].expensesdescription}'),
                                 subtitle:
-                                    Text('Amount: ${widget.expenses[index].expensesamount}'),
-                                trailing: Text('${widget.expenses[index].expensesdate}'),
+                                    Text('Amount: ${currencyFormat.format(widget.expenses[index].expensesamount)}'),
+                                trailing: Text('Date: ${dateTimeFormat.format(widget.expenses[index].expensesdate)}'),
                               )),
                         );
                       },

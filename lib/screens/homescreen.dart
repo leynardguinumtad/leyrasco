@@ -7,6 +7,7 @@ import 'package:dbpracforfinals/screens/historyscreen.dart';
 import 'package:dbpracforfinals/screens/loanscreen.dart';
 import 'package:dbpracforfinals/screens/revenuescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -36,6 +37,14 @@ class _MainscreenState extends State<Mainscreen> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
   double displaybudget = 0;
+      final currencyFormat = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 2,
+    );
+
+  double getProfit() {
+    return widget.revenusedisplay - widget.expensesdisplay;
+  }
 
 
   @override
@@ -67,12 +76,14 @@ class _MainscreenState extends State<Mainscreen> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 72, 163, 236),
       ),
-      drawer: Drawercom(),
+      drawer: Drawercom(businessname: widget.busname),
       body: PageView(
         controller: _pageController,
         children: [
           SafeArea(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 30,
@@ -80,39 +91,80 @@ class _MainscreenState extends State<Mainscreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: 
-                    Container(
-                    width: 250.0,
-                    height: 250.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.blue,
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text('Current Budget', style: TextStyle(
-                              fontSize: 20, 
-                            ),),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Text('₱ ${widget.capital}', style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                              ),
-                            ),
-                          ],
+                    Row(
+                      children: [
+                        Container(
+                        width: 200.0,
+                        height: 200.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.blue,
                         ),
-                      ),
-                    ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Current Budget', style: TextStyle(
+                                  fontSize: 15, 
+                                ),),
+                                SizedBox(
+                                  height: 45,
+                                ),
+                                Text(currencyFormat.format(widget.capital), style: TextStyle(
+                                      fontSize: 27,
+                                      color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                   ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                      Container(
+                        width: 150.0,
+                        height: 150.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(255, 5, 117, 5),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Current Profit', style: TextStyle(
+                                  fontSize: 15,
+                                  fontStyle: FontStyle.italic,
+                                ),),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text('₱ ${getProfit().toStringAsFixed(2)}', style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                  ),
+                      ],
+                    ),
                 ),
               SizedBox(
                 height: 30,
               ),
-                Row(
+                ListView(
+                  shrinkWrap: true,
                   children: [
                     Expanded(
                       child: SizedBox(
@@ -136,7 +188,9 @@ class _MainscreenState extends State<Mainscreen> {
                                 fontSize: 17,
                               color: Colors.white
                               ),),
-                              Text('P ${widget.revenusedisplay}')
+                              Text(currencyFormat.format(widget.revenusedisplay), style: TextStyle(
+                                color: Colors.white,
+                              ),)
                             ],
                           ),
                         ),
@@ -168,7 +222,7 @@ class _MainscreenState extends State<Mainscreen> {
                                 fontSize: 17,
                               color: Colors.white
                               ),),
-                              Text('${widget.expensesdisplay}', style: TextStyle(
+                              Text(currencyFormat.format(widget.expensesdisplay), style: TextStyle(
                                 color: Colors.white
                               ),)
                             ],
@@ -200,7 +254,10 @@ class _MainscreenState extends State<Mainscreen> {
                                 fontSize: 17,
                               color: Colors.white
                               ),),
-                              Text('${widget.loansdisplay}')
+                              Text(currencyFormat.format(widget.loansdisplay),
+                                style: TextStyle(
+                                color: Colors.white,)
+                              )
                             ],
                           ),
                         ),

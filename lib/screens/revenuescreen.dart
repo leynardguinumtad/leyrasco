@@ -1,6 +1,7 @@
 import 'package:dbpracforfinals/data/lists.dart';
 import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class Revenuescreen extends StatefulWidget {
@@ -30,6 +31,11 @@ class _RevenuescreenState extends State<Revenuescreen> {
   int ind = 0;
   List<Expenses> non = [];
   List<Loans> non2 = [];
+    final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
+  final currencyFormat = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 2,
+    );
 
   void showentry() {
     showModalBottomSheet(
@@ -46,6 +52,7 @@ class _RevenuescreenState extends State<Revenuescreen> {
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      prefix: Text('₱'),
                       labelText: 'Enter Amount',
                     ),
                     keyboardType: TextInputType.number,
@@ -211,7 +218,7 @@ class _RevenuescreenState extends State<Revenuescreen> {
                     height: 150,
                     alignment: Alignment.center,
                     child: Text(
-                      'P ${widget.displayrev}',
+                      currencyFormat.format(widget.displayrev),
                       style: TextStyle(
                         fontSize: 50,
                         color: Color.fromARGB(255, 179, 243, 188),
@@ -247,8 +254,8 @@ class _RevenuescreenState extends State<Revenuescreen> {
                               child: ListTile(
                                 title: Text('${widget.revenues[index].revdescription}'),
                                 subtitle:
-                                    Text('Amount: ${widget.revenues[index].revamount}'),
-                                trailing: Text('${widget.revenues[index].revdate}'),
+                                    Text('Amount: ${currencyFormat.format(widget.revenues[index].revamount)}'),
+                                trailing: Text('${dateTimeFormat.format(widget.revenues[index].revdate)}'),
                               )),
                         );
                       },

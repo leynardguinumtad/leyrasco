@@ -1,7 +1,7 @@
 class Revenue{
   String? revdescription;
   double revamount;
-  DateTime? revdate;
+  DateTime revdate;
 
   Revenue({
     required this.revamount,
@@ -14,7 +14,7 @@ class Revenue{
 class Loans{
   String? borrowername;
   double loanamount;
-  DateTime? loandate;
+  DateTime loandate;
   bool isPaid;
 
   Loans({
@@ -28,7 +28,7 @@ class Loans{
 class Expenses{
   String? expensesdescription;
   double expensesamount;
-  DateTime? expensesdate;
+  DateTime expensesdate;
 
   Expenses({
     required this.expensesdescription,

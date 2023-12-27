@@ -1,6 +1,8 @@
 import 'package:dbpracforfinals/data/lists.dart';
 import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/number_symbols_data.dart';
 
 class Loanscreen extends StatefulWidget {
   Loanscreen({
@@ -35,6 +37,11 @@ class _LoanscreenState extends State<Loanscreen> {
   TextEditingController loanamountcon = TextEditingController();
   List<Loans> loans = [];
   int ind = 0;
+  final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
+  final currencyFormat = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 2,
+  );
 
   void showentry() {
     showModalBottomSheet(
@@ -51,6 +58,7 @@ class _LoanscreenState extends State<Loanscreen> {
             ),
             TextField(
               decoration: InputDecoration(
+                prefix: Text('₱'),
                 labelText: 'Amount to pay',
               ),
               keyboardType: TextInputType.number,
@@ -165,36 +173,36 @@ class _LoanscreenState extends State<Loanscreen> {
           actions: [
             TextButton(
               onPressed: () {
-  double totalPaidAmount = 0;
-  for (var loan in widget.loanlist) {
-    if (loan.isPaid) {
-      totalPaidAmount += loan.loanamount;
-    }
-  }
+                    double totalPaidAmount = 0;
+                    for (var loan in widget.loanlist) {
+                      if (loan.isPaid) {
+                        totalPaidAmount += loan.loanamount;
+                      }
+                    }
 
-  setState(() {
-    widget.paidAmount = totalPaidAmount;
-    widget.loans = widget.loanlist
-        .where((loan) => !loan.isPaid)
-        .fold(0, (sum, loan) => sum + loan.loanamount);
-  });
+                    setState(() {
+                      widget.paidAmount = totalPaidAmount;
+                      widget.loans = widget.loanlist
+                          .where((loan) => !loan.isPaid)
+                          .fold(0, (sum, loan) => sum + loan.loanamount);
+                    });
 
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Payment Confirmation'),
-      content: Text('Total Paid Amount: $totalPaidAmount'),
-      actions: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('OK'),
-        ),
-      ],
-    ),
-  );
-},
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Payment Confirmation'),
+                        content: Text('Total Paid Amount: ${currencyFormat.format(totalPaidAmount)}'),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
 
               child: Text('Paid'),
             )
@@ -223,7 +231,7 @@ class _LoanscreenState extends State<Loanscreen> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 182, 186, 245),
+                      color: Color.fromARGB(255, 43, 43, 44),
                     ),
                     height: 150,
                     alignment: Alignment.center,
@@ -234,25 +242,32 @@ class _LoanscreenState extends State<Loanscreen> {
                           Text(
                             'To collect :',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 10,
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            ' ₱ ${widget.loans}',
+                            currencyFormat.format(widget.loans),
                             style: TextStyle(
-                              color: const Color.fromARGB(255, 247, 104, 94),
-                              fontSize: 30,
+                              color: Color.fromARGB(255, 238, 114, 106),
+                              fontSize: 15,
                             ),
                           ),
                           SizedBox(
-                            width: 20,
+                            width: 30,
                           ),
                           Text(
-                            'Paid: ₱ ${widget.paidAmount}',
+                            'Paid : ',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 10,
+                            ),
+                          ),
+                          Text(
+                            currencyFormat.format(widget.paidAmount),
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 105, 238, 123),
+                              fontSize: 15,
                             ),
                           ),
                         ],
@@ -278,11 +293,11 @@ class _LoanscreenState extends State<Loanscreen> {
                                   width: 30,
                                 ),
                                 Text(
-                                  'Amount to pay: ${widget.loanlist[index].loanamount}',
+                                  'Amount to pay: ${currencyFormat.format(widget.loanlist[index].loanamount)}',
                                 ),
                               ],
                             ),
-                            subtitle: Text('Date: ${widget.loanlist[index].loandate}'),
+                            subtitle: Text('Date: ${dateTimeFormat.format(widget.loanlist[index].loandate)}'),
                             trailing: Checkbox(
                               value: widget.loanlist[index].isPaid,
                               onChanged: widget.loanlist[index].isPaid
