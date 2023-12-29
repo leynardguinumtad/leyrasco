@@ -19,9 +19,9 @@ class Historyscreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _buildList("Revenues", histrevenue, Colors.lightGreen),
-          _buildList("Expenses", histexpenses, const Color.fromARGB(255, 223, 104, 95)),
-          _buildList("Loans", histloans, Colors.grey),
+          _buildList("Revenues", histrevenue, const Color.fromARGB(255, 51, 106,74)),
+          _buildList("Expenses", histexpenses, const Color.fromARGB(255, 196, 69,77)),
+          _buildList("Loans", histloans, const Color.fromARGB(255, 243, 195,68)),
         ],
       ),
     );
@@ -37,11 +37,12 @@ class Historyscreen extends StatelessWidget {
                   Icon(
                     Icons.history,
                     size: 50,
-                    color: Color.fromARGB(255, 0, 0, 0),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   Text(
                     'Your future $title are seen here!',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 20,
                     ),
                   ),
@@ -50,7 +51,9 @@ class Historyscreen extends StatelessWidget {
             )
           : Column(
               children: [
-                Text(title),
+                Text(title, style: TextStyle(color: Colors.white,
+                fontSize: 20),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: transactions.length,

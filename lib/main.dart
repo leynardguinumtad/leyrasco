@@ -15,10 +15,19 @@ class Firstpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: myTheme,
       home: Helloscreen(),
     );
   }
 }
+
+ThemeData myTheme = ThemeData(
+  useMaterial3: true,
+  fontFamily: 'Roboto', 
+  colorScheme: ColorScheme.fromSwatch().copyWith(
+    background: const Color.fromARGB(255, 11, 25, 30),
+    primary: const Color.fromARGB(255, 75, 152, 108),
+    secondary: const Color.fromARGB(255, 146, 129, 99),
+    tertiary: Color.fromARGB(255, 146, 129, 99)
+    ),
+);

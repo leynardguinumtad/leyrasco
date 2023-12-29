@@ -21,16 +21,16 @@ class _ChangecapitalscreenState extends State<Changecapitalscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 101, 91, 247),
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 98, 88, 248),
-        title: Center(
-          child: Text('CashFlowMate', style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
-          ),
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text('CashFlowMate', style: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
         ),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

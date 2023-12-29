@@ -39,8 +39,8 @@ class _LoanscreenState extends State<Loanscreen> {
   int ind = 0;
   final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
   final currencyFormat = NumberFormat.currency(
-      symbol: '₱',
-      decimalDigits: 2,
+    symbol: '₱',
+    decimalDigits: 2,
   );
 
   void showentry() {
@@ -108,6 +108,7 @@ class _LoanscreenState extends State<Loanscreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Entry added successfully'),
           content: Text('Loan added'),
           actions: [
@@ -124,6 +125,7 @@ class _LoanscreenState extends State<Loanscreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Oopsss...'),
           content: Text('Please fill in the empty fields'),
           actions: [
@@ -163,47 +165,49 @@ class _LoanscreenState extends State<Loanscreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.grey,
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.background,
           title: Text(
             'Business loans',
             style: TextStyle(
-              color: Colors.black,
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                    double totalPaidAmount = 0;
-                    for (var loan in widget.loanlist) {
-                      if (loan.isPaid) {
-                        totalPaidAmount += loan.loanamount;
-                      }
-                    }
+                double totalPaidAmount = 0;
+                for (var loan in widget.loanlist) {
+                  if (loan.isPaid) {
+                    totalPaidAmount += loan.loanamount;
+                  }
+                }
 
-                    setState(() {
-                      widget.paidAmount = totalPaidAmount;
-                      widget.loans = widget.loanlist
-                          .where((loan) => !loan.isPaid)
-                          .fold(0, (sum, loan) => sum + loan.loanamount);
-                    });
+                setState(() {
+                  widget.paidAmount = totalPaidAmount;
+                  widget.loans = widget.loanlist
+                      .where((loan) => !loan.isPaid)
+                      .fold(0, (sum, loan) => sum + loan.loanamount);
+                });
 
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Payment Confirmation'),
-                        content: Text('Total Paid Amount: ${currencyFormat.format(totalPaidAmount)}'),
-                        actions: [
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('OK'),
-                          ),
-                        ],
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: Colors.white,
+                    title: Text('Payment Confirmation'),
+                    content: Text(
+                        'Total Paid Amount: ${currencyFormat.format(totalPaidAmount)}'),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('OK'),
                       ),
-                    );
-                  },
-
+                    ],
+                  ),
+                );
+              },
               child: Text('Paid'),
             )
           ],
@@ -221,6 +225,7 @@ class _LoanscreenState extends State<Loanscreen> {
                     Text(
                       'Your loans go here!',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 20,
                       ),
                     ),
@@ -231,7 +236,7 @@ class _LoanscreenState extends State<Loanscreen> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 43, 43, 44),
+                      color: Color.fromARGB(255, 243, 195, 68),
                     ),
                     height: 150,
                     alignment: Alignment.center,
@@ -242,15 +247,15 @@ class _LoanscreenState extends State<Loanscreen> {
                           Text(
                             'To collect :',
                             style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.white,
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 255, 255, 255),
                             ),
                           ),
                           Text(
                             currencyFormat.format(widget.loans),
                             style: TextStyle(
-                              color: Color.fromARGB(255, 238, 114, 106),
-                              fontSize: 15,
+                              color: Color.fromARGB(255, 129, 14, 6),
+                              fontSize: 20,
                             ),
                           ),
                           SizedBox(
@@ -260,7 +265,7 @@ class _LoanscreenState extends State<Loanscreen> {
                             'Paid : ',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 20,
                             ),
                           ),
                           Text(
@@ -284,6 +289,7 @@ class _LoanscreenState extends State<Loanscreen> {
                         return Card(
                           elevation: 10,
                           child: ListTile(
+                            textColor: Colors.white,
                             title: Column(
                               children: [
                                 Text(
@@ -297,20 +303,22 @@ class _LoanscreenState extends State<Loanscreen> {
                                 ),
                               ],
                             ),
-                            subtitle: Text('Date: ${dateTimeFormat.format(widget.loanlist[index].loandate)}'),
+                            subtitle: Text(
+                                'Date: ${dateTimeFormat.format(widget.loanlist[index].loandate)}'),
                             trailing: Checkbox(
                               value: widget.loanlist[index].isPaid,
                               onChanged: widget.loanlist[index].isPaid
                                   ? null
                                   : (bool? value) {
                                       setState(() {
-                                        widget.loanlist[index].isPaid = value ?? false;
+                                        widget.loanlist[index].isPaid =
+                                            value ?? false;
                                       });
                                     },
                             ),
                             tileColor: widget.loanlist[index].isPaid
-                                ? Colors.grey
-                                : null,
+                                ? const Color.fromARGB(255, 13, 30, 35)
+                                : const Color.fromARGB(255, 13, 30, 35),
                           ),
                         );
                       },

@@ -2,28 +2,30 @@ import 'package:dbpracforfinals/screens/capitalentry.dart';
 import 'package:flutter/material.dart';
 
 class Enterbusinessscreen extends StatefulWidget {
- Enterbusinessscreen({super.key});
+  Enterbusinessscreen({super.key});
 
   @override
   State<Enterbusinessscreen> createState() => _EnterbusinessscreenState();
 }
 
- String bname = "";
-  TextEditingController bnameinput = TextEditingController();
-
+String bname = "";
+TextEditingController bnameinput = TextEditingController();
 
 class _EnterbusinessscreenState extends State<Enterbusinessscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 101, 91, 247),
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 98, 88, 248),
-        title: Center(
-          child: Text('CashFlowMate', style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Center(
+          child: Text(
+            'CashFlowMate',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -31,53 +33,69 @@ class _EnterbusinessscreenState extends State<Enterbusinessscreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(16.0),
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderRadius: BorderRadius.circular(10.0),
               ),
               elevation: 10,
-              child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Center(
-                          child: Text('Enter your business name', 
+                    ListTile(
+                      title: Center(
+                        child: Text(
+                          'Enter your business name',
                           style: TextStyle(
                             fontSize: 20,
-                          ),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Center(child: Text("eg. Arnie's Cooking Class")),
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          "e.g., Arnie's Cooking Class",
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                       ),
                     ),
-                    Padding(padding: const EdgeInsets.all(10.0),
-                    child: Column(children: [
-                      SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 20),
                     TextField(
                       controller: bnameinput,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder()
+                        labelText: 'Business Name',
+                        border: OutlineInputBorder(),
                       ),
                     ),
-                     SizedBox(
-                      height: 15,
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          bname = bnameinput.text;
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Entercapitalscreen(businessname: bname,),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).colorScheme.primary,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      ),
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    ElevatedButton(onPressed: (){
-                      setState(() {
-                        bname = bnameinput.text;
-                      });
-                      Navigator.push(context, 
-                      MaterialPageRoute(builder: (context) => Entercapitalscreen(businessname: bname,))
-                      );
-                    }, 
-                    child: Text('Next'))
-                    ]),
-                     )
                   ],
                 ),
               ),

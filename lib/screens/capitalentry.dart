@@ -3,7 +3,7 @@ import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
 
 class Entercapitalscreen extends StatefulWidget {
-   Entercapitalscreen({super.key, required this.businessname});
+  Entercapitalscreen({super.key, required this.businessname});
 
   String businessname = "";
 
@@ -11,24 +11,25 @@ class Entercapitalscreen extends StatefulWidget {
   State<Entercapitalscreen> createState() => _EntercapitalscreenState();
 }
 
-  double cap = 0;
-  TextEditingController capitalcon = TextEditingController();
-  List<Revenue> emptyrev = [];
-  List<Expenses> emptyexpenses = [];
-  List<Loans> emptyloans = [];
+double cap = 0;
+TextEditingController capitalcon = TextEditingController();
+List<Revenue> emptyrev = [];
+List<Expenses> emptyexpenses = [];
+List<Loans> emptyloans = [];
 
 class _EntercapitalscreenState extends State<Entercapitalscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 101, 91, 247),
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 98, 88, 248),
-        title: Center(
-          child: Text('CashFlowMate', style: TextStyle(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        centerTitle: true,
+        title: Text(
+          'CashFlowMate',
+          style: TextStyle(
             fontSize: 18,
             color: Colors.white,
-          ),
           ),
         ),
       ),
@@ -36,57 +37,83 @@ class _EntercapitalscreenState extends State<Entercapitalscreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(16.0),
             child: Card(
               elevation: 10,
-              child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Center(
-                          child: Text("What is ${widget.businessname}'s budget for today?", 
+                    ListTile(
+                      title: Center(
+                        child: Text(
+                          "What is ${widget.businessname}'s budget for today?",
                           style: TextStyle(
                             fontSize: 20,
-                          ),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Center(child: Text("eg. 10000")),
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          "e.g., 10000",
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
                       ),
                     ),
-                    Padding(padding: const EdgeInsets.all(10.0),
-                    child: Column(children: [
-                      SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 20),
                     TextField(
                       decoration: InputDecoration(
                         prefix: Text('P'),
                         suffix: Text('.00'),
-                        border: OutlineInputBorder()
+                        labelText: 'Enter Budget',
+                        border: OutlineInputBorder(),
                       ),
                       controller: capitalcon,
+                      keyboardType: TextInputType.number,
                     ),
-                     SizedBox(
-                      height: 15,
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        cap = double.parse(capitalcon.text);
+                        setState(() {});
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Mainscreen(
+                              capital: cap,
+                              busname: widget.businessname,
+                              expensesdisplay: 0,
+                              revenusedisplay: 0,
+                              loansdisplay: 0,
+                              revlistcopy: emptyrev,
+                              expenseslistcopy: emptyexpenses,
+                              loanslistcopy: emptyloans,
+                              paidamount_inloans: 0,
+                            ),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      ),
+                      child: const Text(
+                        'Next',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    ElevatedButton(onPressed: (){
-                      cap = double.parse(capitalcon.text);
-                      setState(() {
-                        
-                      });
-                      Navigator.push(context, 
-                      MaterialPageRoute(builder: (context)=> Mainscreen(capital: cap, busname: widget.businessname, expensesdisplay: 0, revenusedisplay: 0, loansdisplay: 0, revlistcopy: emptyrev, 
-                      expenseslistcopy: emptyexpenses, loanslistcopy: emptyloans, paidamount_inloans: 0,)));
-                    }, child: Text('Next'))
-                    ]),
-                     )
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

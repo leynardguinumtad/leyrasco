@@ -3,11 +3,19 @@ import 'package:dbpracforfinals/screens/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class Revenuescreen extends StatefulWidget {
-  Revenuescreen({Key? key, required this.revenues, required this.displayrev, required this.busname, required this.capital,
-  required this.expenses, required this.expensesdisplay, required this.loans, required this.loansdisplay, required this.paidamount_inloans
-  }) : super(key: key);
+  Revenuescreen(
+      {Key? key,
+      required this.revenues,
+      required this.displayrev,
+      required this.busname,
+      required this.capital,
+      required this.expenses,
+      required this.expensesdisplay,
+      required this.loans,
+      required this.loansdisplay,
+      required this.paidamount_inloans})
+      : super(key: key);
 
   String busname;
   double capital;
@@ -27,15 +35,15 @@ class _RevenuescreenState extends State<Revenuescreen> {
   double capitalincreased = 0;
   String busname = "hahahaa";
   TextEditingController revenuedescon = TextEditingController();
-  TextEditingController revamountcon = TextEditingController(); 
+  TextEditingController revamountcon = TextEditingController();
   int ind = 0;
   List<Expenses> non = [];
   List<Loans> non2 = [];
-    final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
+  final dateTimeFormat = DateFormat('y/MM/dd hh:mm a');
   final currencyFormat = NumberFormat.currency(
-      symbol: '₱',
-      decimalDigits: 2,
-    );
+    symbol: '₱',
+    decimalDigits: 2,
+  );
 
   void showentry() {
     showModalBottomSheet(
@@ -72,8 +80,7 @@ class _RevenuescreenState extends State<Revenuescreen> {
                       SizedBox(
                         width: 15,
                       ),
-                      ElevatedButton(
-                          onPressed: addreventry, child: Text('Add'))
+                      ElevatedButton(onPressed: addreventry, child: Text('Add'))
                     ],
                   )
                 ],
@@ -82,95 +89,97 @@ class _RevenuescreenState extends State<Revenuescreen> {
   }
 
   void addreventry() {
-  if (revenuedescon.text.isNotEmpty && revamountcon.text.isNotEmpty) {
-    setState(() {
-      double revAmount = double.parse(revamountcon.text);
-      widget.revenues.add(Revenue(
-        revamount: revAmount,
-        revdescription: revenuedescon.text,
-        revdate: DateTime.now(),
-      ));
-      widget.displayrev += revAmount;
-      revenuedescon.clear();
-      revamountcon.clear();
-    });
-    Navigator.pop(context);
+    if (revenuedescon.text.isNotEmpty && revamountcon.text.isNotEmpty) {
+      setState(() {
+        double revAmount = double.parse(revamountcon.text);
+        widget.revenues.add(Revenue(
+          revamount: revAmount,
+          revdescription: revenuedescon.text,
+          revdate: DateTime.now(),
+        ));
+        widget.displayrev += revAmount;
+        revenuedescon.clear();
+        revamountcon.clear();
+      });
+      Navigator.pop(context);
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Entry added successfully'),
-        content: Text('Revenue added'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
-  } else {
-    // Show "Please fill in the empty fields" alert
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Oopsss...'),
-        content: Text('Please fill in the empty fields'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Entry added successfully'),
+          content: Text('Revenue added'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Show "Please fill in the empty fields" alert
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Oopsss...'),
+          content: Text('Please fill in the empty fields'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
-}
-
 
   // Function to remove an entry
-   Future<bool> confirmDismiss(int index) async {
-  bool userConfirmed = false;
-  await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text('Remove Entry'),
-      content: Text('Are you sure you want to remove this entry?'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            // User canceled removal
-            Navigator.pop(context, false);
-          },
-          child: Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // User confirmed to remove the entry
-            userConfirmed = true;
-            Navigator.pop(context, true);
-          },
-          child: Text('Yes'),
-        ),
-      ],
-    ),
-  );
+  Future<bool> confirmDismiss(int index) async {
+    bool userConfirmed = false;
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('Remove Entry'),
+        content: Text('Are you sure you want to remove this entry?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              // User canceled removal
+              Navigator.pop(context, false);
+            },
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // User confirmed to remove the entry
+              userConfirmed = true;
+              Navigator.pop(context, true);
+            },
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    );
 
-  if (userConfirmed) {
-    double removedAmount = widget.revenues[index].revamount;
-    setState(() {
-      widget.revenues.removeAt(index);
-      widget.displayrev -= removedAmount;// Subtract revenue amount from the capital
-    });
+    if (userConfirmed) {
+      double removedAmount = widget.revenues[index].revamount;
+      setState(() {
+        widget.revenues.removeAt(index);
+        widget.displayrev -=
+            removedAmount; // Subtract revenue amount from the capital
+      });
+    }
+
+    return userConfirmed;
   }
-
-  return userConfirmed;
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -179,15 +188,27 @@ class _RevenuescreenState extends State<Revenuescreen> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Mainscreen(capital: widget.capital, busname: widget.busname, 
-                expensesdisplay: widget.expensesdisplay, revenusedisplay: widget.displayrev, loansdisplay: widget.loansdisplay, revlistcopy: widget.revenues, loanslistcopy: widget.loans,
-                expenseslistcopy: widget.expenses, paidamount_inloans: widget.paidamount_inloans,)));
+                builder: (context) => Mainscreen(
+                      capital: widget.capital,
+                      busname: widget.busname,
+                      expensesdisplay: widget.expensesdisplay,
+                      revenusedisplay: widget.displayrev,
+                      loansdisplay: widget.loansdisplay,
+                      revlistcopy: widget.revenues,
+                      loanslistcopy: widget.loans,
+                      expenseslistcopy: widget.expenses,
+                      paidamount_inloans: widget.paidamount_inloans,
+                    )));
         return false;
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: Text('Your sales/revenues'),
+          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text(
+            'Your sales/revenues',
+            style: TextStyle(color: Colors.white),
+          ),
           centerTitle: true,
         ),
         body: widget.revenues.isEmpty
@@ -197,13 +218,14 @@ class _RevenuescreenState extends State<Revenuescreen> {
                   children: [
                     Icon(
                       Icons.money,
-                      size: 50,
-                      color: Colors.green,
+                      size: 80,
+                      color: Colors.white,
                     ),
                     Text(
                       'Your sales made go here!',
                       style: TextStyle(
-                        fontSize: 20,
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ],
@@ -234,9 +256,7 @@ class _RevenuescreenState extends State<Revenuescreen> {
                       itemBuilder: (BuildContext context, int index) {
                         return Dismissible(
                           key: Key(widget.revenues[index].revdate.toString()),
-                          onDismissed: (direction) {
-                            
-                          },
+                          onDismissed: (direction) {},
                           confirmDismiss: (direction) async {
                             return confirmDismiss(index);
                           },
@@ -252,10 +272,15 @@ class _RevenuescreenState extends State<Revenuescreen> {
                           child: Card(
                               elevation: 10,
                               child: ListTile(
-                                title: Text('${widget.revenues[index].revdescription}'),
-                                subtitle:
-                                    Text('Amount: ${currencyFormat.format(widget.revenues[index].revamount)}'),
-                                trailing: Text('${dateTimeFormat.format(widget.revenues[index].revdate)}'),
+                                textColor: Colors.white,
+                                tileColor:
+                                    const Color.fromARGB(255, 13, 30, 35),
+                                title: Text(
+                                    '${widget.revenues[index].revdescription}'),
+                                subtitle: Text(
+                                    'Amount: ${currencyFormat.format(widget.revenues[index].revamount)}'),
+                                trailing: Text(
+                                    '${dateTimeFormat.format(widget.revenues[index].revdate)}'),
                               )),
                         );
                       },
